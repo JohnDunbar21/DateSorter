@@ -41,16 +41,6 @@ public class DateSorterUtilities {
     }
   }
 
-  public static boolean isValidDate(String dateString) {
-    // Try to parse the date string using the LocalDate.parse method
-    try {
-      LocalDate.parse(dateString);
-      return true;
-    } catch (DateTimeParseException e) {
-      return false;
-    }
-  }
-
   public static void sortDates(DefaultListModel<Date> list) {
     Integer modelSize = list.getSize();
     List<Date> tempArray = new ArrayList<>();

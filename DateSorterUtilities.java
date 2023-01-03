@@ -8,8 +8,6 @@ import java.util.Comparator;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import javax.swing.DefaultListModel;
 
 public class DateSorterUtilities {
@@ -101,4 +99,61 @@ public class DateSorterUtilities {
     return false;
   }
 
+  public static String[] countNumberOfDates() {
+    ArrayList<String> dates = new ArrayList<>();
+    Integer modelSize = DateSorterGUI.historyModel.getSize();
+    Integer numberOfDates = 0;
+    String[] returnValues = new String[3];
+    String newestDate = "";
+    String oldestDate = "";
+
+    if(modelSize != null) {
+      for(int i = 0; i < modelSize; i++) {
+        dates.add(DateSorterGUI.historyModel.getElementAt(i).toString());
+        numberOfDates += 1;
+      }
+    }
+
+    if(dates.size() > 0) {
+      newestDate = Collections.max(dates);
+      oldestDate = Collections.min(dates);
+    }
+
+    returnValues[0] = numberOfDates.toString();
+    returnValues[1] = newestDate;
+    returnValues[2] = oldestDate;
+
+    return returnValues;
+  }
+
+  public static String quarterlyStatistics() {
+    ArrayList<Date> dates = new ArrayList<>();
+    Integer modelSize = DateSorterGUI.historyModel.getSize();
+
+    for(int i = 0; i < modelSize; i++) {
+      dates.add(DateSorterGUI.historyModel.getElementAt(i));
+    }
+
+    String currentYear = DateSorterGUI.historyModel.lastElement().getYear();
+
+    Integer[][] quarterlyLimits = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}};
+    Integer[] quarterly = {0, 0, 0, 0};
+
+    for(int i = 0; i < dates.size(); i++) {
+      if(dates.get(i).getYear() == currentYear) {
+        Integer temp = Integer.parseInt(dates.get(i).getMonth());
+        for(Integer j = 0; j < quarterlyLimits.length; j++) {
+          for(Integer k = 0; k < quarterlyLimits[j].length; k++) {
+            if(temp.equals(quarterlyLimits[j][k])) {
+              quarterly[j] += 1;
+            }
+          }
+        }
+      }
+
+    }
+
+    String result = "Quarterly Statistics\n\nFirst Quarter Dates: "+quarterly[0].toString()+"\n\nSecond Quarter Dates: "+quarterly[1].toString()+"\n\nThird Quarter Dates: "+quarterly[2].toString()+"\n\nFourth Quarter Dates: "+quarterly[3].toString();
+    return result;
+  }
 }

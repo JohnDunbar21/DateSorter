@@ -31,8 +31,8 @@ public class DateSorterGUI {
     private TitledBorder buttonBorder = BorderFactory.createTitledBorder("Functionality");
     private TitledBorder rightPanelBorder = BorderFactory.createTitledBorder("Date History");
     private JMenuBar menuBar;
-    private JMenu menu;
-    private JMenuItem about;
+    private JMenu menuOne, menuTwo;
+    private JMenuItem about, statistics, quarterlyReport;
 
     public JFrame initialiseWindow() {
         mainFrame.setSize(1000, 500);
@@ -47,11 +47,23 @@ public class DateSorterGUI {
 
     public JMenuBar initialiseMenuBar() {
         menuBar = new JMenuBar();
-        menu = new JMenu("Application");
+        menuOne = new JMenu("Application");
+        menuTwo = new JMenu("Statistics");
+
         about = new JMenuItem("About");
         about.addActionListener(e -> applicationInfo());
-        menu.add(about);
-        menuBar.add(menu);
+
+        statistics = new JMenuItem("Statistics");
+        statistics.addActionListener(e -> generateStatistics());
+
+        quarterlyReport = new JMenuItem("Quarterly Report");
+        quarterlyReport.addActionListener(e -> generateQuarterlyReport());
+
+        menuOne.add(about);
+        menuTwo.add(statistics);
+        menuTwo.add(quarterlyReport);
+        menuBar.add(menuOne);
+        menuBar.add(menuTwo);
         return menuBar;
     }
 
@@ -187,7 +199,20 @@ public class DateSorterGUI {
     }
 
     public void applicationInfo() {
-        JOptionPane.showMessageDialog(mainFrame, "Application version Alpha 0.0.1");
+        JOptionPane.showMessageDialog(mainFrame, "Application version Alpha 0.1.2");
+    }
+
+    public void generateStatistics() {
+        String[] data = DateSorterUtilities.countNumberOfDates();
+        String dataString= "Data Statistics\n\nNumber of dates: "+data[0]+"\n\nMost recent date: "+data[1]+"\n\nOldest date: "+data[2];
+
+        JOptionPane.showMessageDialog(mainFrame, dataString);
+    }
+
+    public void generateQuarterlyReport() {
+        String data = DateSorterUtilities.quarterlyStatistics();
+
+        JOptionPane.showMessageDialog(mainFrame, data);
     }
 
     public void exportData() {

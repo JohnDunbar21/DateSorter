@@ -142,10 +142,9 @@ public class DateSorterUtilities {
     Integer[][] quarterlyLimits = {{1, 2, 3}, {4, 5, 6}, {7, 8, 9}, {10, 11, 12}};
     Integer[] quarterly = {0, 0, 0, 0};
 
-    for(int i = 0; i < dates.size(); i++) {
-      if(dates.get(i) != null) {
-        if(dates.get(i).getYear() == currentYear) {
-          Integer temp = Integer.parseInt(dates.get(i).getMonth());
+    for(Date date : dates) {
+        if(date.getYear().contains(currentYear)) {
+          Integer temp = Integer.parseInt(date.getMonth());
           for(Integer j = 0; j < quarterlyLimits.length; j++) {
             for(Integer k = 0; k < quarterlyLimits[j].length; k++) {
               if(temp.equals(quarterlyLimits[j][k])) {
@@ -154,8 +153,6 @@ public class DateSorterUtilities {
             }
           }
         }
-      }
-
     }
 
     String result = "Quarterly Statistics\n\nFirst Quarter Dates: "+quarterly[0].toString()+"\n\nSecond Quarter Dates: "+quarterly[1].toString()+"\n\nThird Quarter Dates: "+quarterly[2].toString()+"\n\nFourth Quarter Dates: "+quarterly[3].toString();
